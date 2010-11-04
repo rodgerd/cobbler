@@ -1092,6 +1092,7 @@ class Koan:
             ip = self.safe_load(interface_data, "ip_address")
             subnet = self.safe_load(interface_data, "subnet")
             gateway = self.safe_load(pd, "gateway")
+            dns = self.safe_load(pd, "name_servers")
 
             hashv["ksdevice"] = self.static_interface
             if ip is not None:
@@ -1100,6 +1101,8 @@ class Koan:
                 hashv["netmask"] = subnet
             if gateway is not None:
                 hashv["gateway"] = gateway
+            if dns is not None:
+                hashv["dns"] = string.join(dns, ",")
 
         if replace_self and self.embed_kickstart:
            hashv["ks"] = "file:ks.cfg"

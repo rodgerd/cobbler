@@ -43,17 +43,21 @@ def main(args):
    p.add_option("-k","--koan",action="store",help="additional koan arguments, if any")
    p.add_option("-s","--server",action="store",help="cobbler server address")
    (options,args) = p.parse_args()
-
+   
    if options.server is None:
       print >>sys.stderr, "error: --server is required"
       sys.exit(1)
+   else:
+      options.koan = options.koan + " --server=%s" % options.server
    if options.koan is None:
       options.koan = "--replace-self --server=%s" % options.server
    if options.koan.find("--server") == -1 and options.koan.find("-s") == -1:
       options.koan = options.koan + " --server=%s" % options.server
    if options.koan.find("--replace-self") == -1:
       options.koan = options.koan + " --replace-self"
-
+      
+   print options.koan
+   
    if not os.path.exists("/usr/bin/livecd-creator"):
       print "livecd-tools needs to be installed"
       sys.exit(1)
